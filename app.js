@@ -42,7 +42,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(
   cors({
-    origin: 'https://wenvenmoralesurvey.netlify.app/:8081',
+    origin: 'https://wenvenmoralesurvey.netlify.app/',
     credentials: true,
     methods: ['GET', 'POST', 'DELETE', 'PUT', 'OPTIONS'],
   })
