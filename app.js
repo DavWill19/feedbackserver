@@ -39,23 +39,20 @@ app.use(passport.initialize());
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-
-
 app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Credentials", true);
-  res.header("Access-Control-Allow-Methods", "DELETE, POST, GET, OPTIONS");
+  res.header("Access-Control-Allow-Origin", 'http://localhost:3001');
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
 
 app.use(
   cors({
-    origin: '*',
+    origin: 'http://localhost:3001',
     credentials: true,
     methods: ['GET', 'POST', 'DELETE', 'PUT', 'OPTIONS'],
   })
 );
+
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
