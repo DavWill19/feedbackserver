@@ -50,6 +50,8 @@ app.use(
     origin: '*',
     credentials: true,
     methods: ['GET', 'POST', 'DELETE', 'PUT', 'OPTIONS'],
+    //may need to delete the line below
+    allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
   })
 );
 
