@@ -10,20 +10,20 @@ borrowRouter.route('/')
 .options( (req, res) => { res.sendStatus(200); })
 .get(  (req, res, next) => {
     Borrow.find()
-      .then((form) => {
+      .then((borrow) => {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
-        res.json(form);
+        res.json(borrow);
       })
       .catch((err) => next(err));
   })
   .post(cors.cors, (req, res, next) => {
     Borrow.create(req.body)
-      .then((form) => {
-        console.log('Form entry created ', form);
+      .then((borrow) => {
+        console.log('Form entry created ', borrow);
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
-        res.json(form);
+        res.json(borrow);
       })
       .catch((err) => next(err));
   })
