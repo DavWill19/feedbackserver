@@ -7,6 +7,10 @@ const formSchema = new Schema(
             type: String,
             required: true,
         },
+        name: {
+            type: String,
+            required: true,
+        },
         loanStore: {
             type: String,
             required: true,
