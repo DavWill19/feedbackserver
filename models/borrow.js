@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const formSchema = new Schema(
+const borrowSchema = new Schema(
     {
         borrowStore: {
             type: String,
