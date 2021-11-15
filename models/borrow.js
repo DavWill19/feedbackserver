@@ -36,6 +36,11 @@ const borrowSchema = new Schema(
             type: String,
             required: false,
         },
+        repaid: {
+            type: Boolean,
+            required: false,
+            default: false,
+        },
 
     },
     {
