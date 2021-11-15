@@ -18,6 +18,7 @@ const borrowSchema = new Schema(
         acknowledged: {
             type: Boolean,
             required: false,
+            default: false,
         },
         item: {
             type: String,
