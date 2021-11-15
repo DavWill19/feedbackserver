@@ -36,7 +36,20 @@ borrowRouter.route('/')
     res.end('Delete operation not supported on /borrow');
 });
 
-//
+borrowRouter.route('/:borrowId')
+.put((req, res, next) => {
+    Borrow.findByIdAndUpdate(req.params.borrowId, {
+        $set: req.body
+    }) 
+    .then(borrow => {
+        console.log('Form entry created ', borrow);
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        res.json(borrow);
+    })
+    .catch(err => next(err));
+});
+
 
 
 module.exports = borrowRouter;
