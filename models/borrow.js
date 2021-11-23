@@ -20,6 +20,11 @@ const borrowSchema = new Schema(
             required: false,
             default: false,
         },
+        acknowledgedLoan: {
+            type: Boolean,
+            required: false,
+            default: false,
+        },
         item: {
             type: String,
             required: false,
