@@ -14,9 +14,12 @@ const userSchema = new Schema({
     password: {
         type: String,
         default: ''
-    },
-    
-});
+    }, 
+},
+{
+    timestamps: true,
+}
+);
 
 userSchema.plugin(passportLocalMongoose);
 

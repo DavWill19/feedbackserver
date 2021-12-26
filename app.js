@@ -10,6 +10,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/usersRouter');
 var feedbackRouter = require('./routes/feedbackRouter');
 var borrowRouter = require('./routes/borrowRouter');
+var crewUserRouter = require('./routes/crewUserRouter');
 
 const passport = require('passport');
 const authenticate = require('./authenticate');
@@ -61,6 +62,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/feedback', feedbackRouter);
 app.use('/borrow', borrowRouter);
+app.use('/crewuser', crewUserRouter);
 
 
 // catch 404 and forward to error handler
