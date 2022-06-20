@@ -13,7 +13,10 @@ feedbackRouter.route('/')
       .then((form) => {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
-        res.json(form);
+        res.json(
+          success = true,
+          form
+          );
       })
       .catch((err) => next(err));
   })
