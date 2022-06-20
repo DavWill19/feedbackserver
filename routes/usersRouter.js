@@ -1,7 +1,7 @@
 const express = require('express');
 const User = require('../models/users');
 const passport = require('passport');
-const router = express.Router();
+const usersRouter = express.Router();
 const authenticate = require('../authenticate');
 // const cors = require('./cors');
 const { route } = require('.');
@@ -9,7 +9,7 @@ const { route } = require('.');
 
 /* GET users listing. */
 
-router.route('/')
+usersRouter.route('/')
 .options( (req, res) => { res.sendStatus(200); })
 .get(  authenticate.verifyUser, function (req, res, next) {
   User.find()
@@ -21,7 +21,7 @@ router.route('/')
     .catch(err => next(err));
 });
 
-router.route('/signup')
+usersRouter.route('/signup')
 .options( (req, res) => { res.sendStatus(200); })
 .post(  (req, res) => {
   User.register(
@@ -56,7 +56,7 @@ router.route('/signup')
     }
   );
 });
-router.route('/login')
+usersRouter.route('/login')
 .options( (req, res) => { res.sendStatus(200); })
 .post(passport.authenticate('local'), (req, res) => {
   const token = authenticate.getToken({ _id: req.user._id });
@@ -65,7 +65,7 @@ router.route('/login')
   res.json({ success: true, token: token, status: 'You are successfully logged in!' });
 });
 
-router.route('/logout')
+usersRouter.route('/logout')
 .options( (req, res) => { res.sendStatus(200); })
 .get( (req, res, next) => {
   if (req.session) {
@@ -79,4 +79,4 @@ router.route('/logout')
   }
 });
 
-module.exports = router;
+module.exports = usersRouter;
