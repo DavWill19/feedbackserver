@@ -59,13 +59,10 @@ router.route('/signup')
 router.route('/login')
 .options( (req, res) => { res.sendStatus(200); })
 .post(passport.authenticate('local'), (req, res) => {
-  User.findOne({ username: req.body.username })
-    .then(user => {
   const token = authenticate.getToken({ _id: req.user._id });
   res.statusCode = 200;
   res.setHeader('Content-Type', 'text/plain');
-  res.json({ user, success: true, token: token, status: 'You are successfully logged in!' });
-    })
+  res.json({ success: true, token: token, status: 'You are successfully logged in!' });
 });
 
 router.route('/logout')
