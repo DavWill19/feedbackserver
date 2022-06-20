@@ -7,16 +7,16 @@ const authenticate = require('../authenticate');
 
 
 feedbackRouter.route('/')
-.options( (req, res) => { res.sendStatus(200); })
-.get( authenticate.verifyUser, (req, res, next) => {
+  .options((req, res) => { res.sendStatus(200); })
+  .get(authenticate.verifyUser, (req, res, next) => {
     Form.find()
       .then((form) => {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
-        res.json(
-          success = true,
+        res.json({
+          success: true,
           form
-          );
+        });
       })
       .catch((err) => next(err));
   })
@@ -30,14 +30,14 @@ feedbackRouter.route('/')
       })
       .catch((err) => next(err));
   })
-.put((req, res) => {
+  .put((req, res) => {
     res.statusCode = 403;
     res.end('PUT operation not supported on /feedbacks');
-})
-.delete((req, res) => {
+  })
+  .delete((req, res) => {
     res.statusCode = 403;
     res.end('Delete operation not supported on /feedbacks');
-});
+  });
 
 //
 
