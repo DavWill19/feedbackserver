@@ -108,7 +108,7 @@ employeesRouter.route('/message/:username')
         const success = true;
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
-        res.send(JSON.stringify({ success, message1, message2, message3, title1, title2, title3 }));
+        res.send(JSON.stringify({ success }));
         
     }
         , (err) => next(err));
