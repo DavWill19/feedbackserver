@@ -7,6 +7,9 @@ const moment = require('moment');
 const nodemailer = require('nodemailer');
 const email = require('../email');
 const config = require('../config');
+var fs = require('fs');
+var pdf = require('html-pdf');
+;
 
 var transporter = nodemailer.createTransport({
     host: "smtp-mail.outlook.com", // hostname
@@ -108,101 +111,123 @@ employeesRouter.route('/message/:username')
         const success = true;
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
-        res.send(JSON.stringify({ success }));
-        
+        res.send(JSON.stringify({
+            success
+        }));
+
     }
         , (err) => next(err));
-        
 
 
 
-        employeesRouter.route('/deactivate/:employeesId')
-            .put(cors.cors, (req, res, next) => {
-                Employee.findByIdAndUpdate(req.params.employeesId, {
-                    $set: {
-                        active: req.body.active
-                    }
-                })
-                    .then((employees) => {
-                        res.statusCode = 200;
-                        res.setHeader('Content-Type', 'application/json');
-                        res.json(employees);
-                    })
-                    .catch((err) => next(err));
+
+employeesRouter.route('/deactivate/:employeesId')
+    .put(cors.cors, (req, res, next) => {
+        Employee.findByIdAndUpdate(req.params.employeesId, {
+            $set: {
+                active: req.body.active
+            }
+        })
+            .then((employees) => {
+                res.statusCode = 200;
+                res.setHeader('Content-Type', 'application/json');
+                res.json(employees);
             })
+            .catch((err) => next(err));
+    })
 
-        employeesRouter.route('/editemployee/:employeesId')
-            .put(cors.cors, (req, res, next) => {
-                Employee.findByIdAndUpdate(req.params.employeesId, {
-                    $set: {
-                        firstname: req.body.firstname,
-                        lastname: req.body.lastname,
-                        email: req.body.email
-                    }
-                })
-                    .then((employees) => {
-                        res.statusCode = 200;
-                        res.success = true;
-                        res.setHeader('Content-Type', 'application/json');
-                        res.json(employees);
-                    })
-                    .catch((err) => next(err));
+employeesRouter.route('/editemployee/:employeesId')
+    .put(cors.cors, (req, res, next) => {
+        Employee.findByIdAndUpdate(req.params.employeesId, {
+            $set: {
+                firstname: req.body.firstname,
+                lastname: req.body.lastname,
+                email: req.body.email
+            }
+        })
+            .then((employees) => {
+                res.statusCode = 200;
+                res.success = true;
+                res.setHeader('Content-Type', 'application/json');
+                res.json(employees);
             })
+            .catch((err) => next(err));
+    })
 
-        employeesRouter.route('/nextreview/:employeesId')
-            .put(cors.cors, (req, res, next) => {
-                Employee.findByIdAndUpdate(req.params.employeesId, {
-                    $set: {
-                        nextReview: req.body.nextreview
-                    }
-                })
-                    .then((employees) => {
-                        res.statusCode = 200;
-                        res.success = true;
-                        res.setHeader('Content-Type', 'application/json');
-                        res.json(employees);
-                    })
-                    .catch((err) => next(err));
+employeesRouter.route('/nextreview/:employeesId')
+    .put(cors.cors, (req, res, next) => {
+        Employee.findByIdAndUpdate(req.params.employeesId, {
+            $set: {
+                nextReview: req.body.nextreview
+            }
+        })
+            .then((employees) => {
+                res.statusCode = 200;
+                res.success = true;
+                res.setHeader('Content-Type', 'application/json');
+                res.json(employees);
             })
+            .catch((err) => next(err));
+    })
 
-        employeesRouter.route('/newreview/:employeesId')
-            .put(cors.cors, (req, res, next) => {
-                console.log(req.body.review);
-                //add rating
-                const storeEmail = getEmail(req.body.review.store);
-                const score = req.body.review.score;
-                const mailDataPassChange = {
-                    from: 'Wenventure Inc <devwill2484@outlook.com>',  // sender address
-                    name: 'Wenventure Inc',
-                    to: req.body.email,
-                    cc: storeEmail,   // list of receivers
-                    subject: 'Your Performance Review', // Subject line
-                    text: `New Survey!`, // plain text body
-                    html: email.reviewMessage(`New Performance Review!`, req.body.name, req.body.review, score) // html body
-                };
-                transporter.sendMail(mailDataPassChange, function (err, info) {
-                    if (err)
-                        console.log(err)
-                    else
-                        console.log(info);
-                });
-                Employee.findByIdAndUpdate(req.params.employeesId, {
-                    $set: {
-                        nextReview: req.body.nextReview,
-                        lastReview: new Date(),
-                    },
-                    $push: { history: req.body.review }
+employeesRouter.route('/newreview/:employeesId')
+    .put(cors.cors, (req, res, next) => {
+        var options = { format: 'Letter' };
+        var html = email.reviewStatus(
+            req.body.name, 
+            req.body.review.date, 
+            req.body.review.store, 
+            req.body.review.effectiveDate, 
+            req.body.review.currentRate,
+            req.body.review.newPayrate);
 
-                })
-                    .then((employees) => {
-                        res.statusCode = 200;
-                        res.success = true;
-                        res.setHeader('Content-Type', 'application/json');
-                        res.json(employees);
-                    })
-                    .catch((err) => next(err));
+        pdf.create(html, options).toFile(`./${req.body.review.store}status.pdf`, function (err, res) {
+            if (err) return console.log(err);
+            console.log(res); // { filename: '/app/status.pdf' }
+        });
+        console.log(req.body.review);
+        //add rating
+        setTimeout(function () {
+        const storeEmail = getEmail(req.body.review.store);
+        const score = req.body.review.score;
+        const mailDataPassChange = {
+            from: 'Wenventure Inc <devwill2484@outlook.com>',  // sender address
+            name: 'Wenventure Inc',
+            to: req.body.email,
+            attachments: [
+                {
+                    filename: `${req.body.review.store}status.pdf`,
+                    path: `./${req.body.review.store}status.pdf`,
+                }
+            ],
+            cc: storeEmail,   // list of receivers
+            subject: `Your Performance Review -${req.body.review.date}`, // Subject line
+            text: `New Review!`, // plain text body
+            html: email.reviewMessage(`New Performance Review!`, req.body.name, req.body.review, score) // html body
+        };
+        transporter.sendMail(mailDataPassChange, function (err, info) {
+            if (err)
+                console.log(err)
+            else
+                console.log(info);
+        });
+        }, 5000);
+        Employee.findByIdAndUpdate(req.params.employeesId, {
+            $set: {
+                nextReview: req.body.nextReview,
+                lastReview: new Date(),
+            },
+            $push: { history: req.body.review }
+
+        })
+            .then((employees) => {
+                res.statusCode = 200;
+                res.success = true;
+                res.setHeader('Content-Type', 'application/json');
+                res.json(employees);
             })
+            .catch((err) => next(err));
+    })
 
 
-
-        module.exports = employeesRouter;
+module.exports = employeesRouter;

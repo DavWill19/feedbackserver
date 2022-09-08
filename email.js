@@ -975,10 +975,20 @@ exports.reviewMessage = function (message1, employee, form, score) {
     * {
       line-height: inherit;
     }
+    .text-center {
+      text-align: center;
+    }
+    .addPaddingX {
+      padding-left: 20px !important;
+      padding-right: 20px !important;
+    }
     
     a[x-apple-data-detectors='true'] {
       color: inherit !important;
       text-decoration: none !important;
+    }
+    .bold {
+      font-weight: bold;
     }
     
     table, td { color: #000000; } a { color: #0000ee; text-decoration: underline; } @media (max-width: 480px) { #u_content_text_1 .v-container-padding-padding { padding: 10px 20px !important; } #u_content_button_1 .v-size-width { width: 61% !important; } }
@@ -1024,49 +1034,51 @@ exports.reviewMessage = function (message1, employee, form, score) {
         </td>
       </tr>
     </table>
-              <h3>Employee: ${employee}</h3>                      
-        <h5>Date of Review: ${form.date}</h5>
-        <h5>Position: ${form.type}</h5>
-        <div>
+        <h2 class='text-center'>Your Performance Review</h2>
+        <hr />
+        <h3 class='text-center'>Employee: ${employee}</h3>                      
+        <h3 class='text-center'>Date of Review: ${form.date}</h3>
+        <h3 class='text-center'>Position: ${form.type}</h3>
+        <div class="addPaddingX">
             <hr />
-            <h5>${form.question1}</h5>
-            <h6>Rating: ${form.answer1}</h6>
+            <p class='bold'>${form.question1}</h5>
+            <h5>Rating: ${form.answer1}/5</h6>
             <p>Comments: "${form.comment1}"</p>
             <hr />
-            <h5>${form.question2}</h5>
-            <h6>Rating: ${form.answer2}</h6>
+            <p class='bold'>${form.question2}</h5>
+            <h5>Rating: ${form.answer2}/5</h6>
             <p>Comments: "${form.comment2}"</p>
             <hr />
-            <h5>${form.question3}</h5>
-            <h6>Rating: ${form.answer3}</h6>
+            <p class='bold'>${form.question3}</h5>
+            <h5>Rating: ${form.answer3}/5</h6>
             <p>Comments: "${form.comment3}"</p>
             <hr />
-            <h5>${form.question4}</h5>
-            <h6>Rating: ${form.answer4}</h6>
+            <p class='bold'>${form.question4}</h5>
+            <h5>Rating: ${form.answer4}/5</h6>
             <p>Comments: "${form.comment4}"</p>
             <hr />
-            <h5>${form.question5}</h5>
-            <h6>Rating: ${form.answer5}</h6>
+            <p class='bold'>${form.question5}</h5>
+            <h5>Rating: ${form.answer5}/5</h6>
             <p>Comments: "${form.comment5}"</p>
             <hr />
-            <h5>${form.question6}</h5>
-            <h6>Rating: ${form.answer6}</h6>
+            <p class='bold'>${form.question6}</h5>
+            <h5>Rating: ${form.answer6}/5</h6>
             <p>Comments: "${form.comment6}"</p>
             <hr />
-            <h5>${form.question7}</h5>
-            <h6>Rating: ${form.answer7}</h6>
+            <p class='bold'>${form.question7}</h5>
+            <h5>Rating: ${form.answer7}/5</h6>
             <p>Comments: "${form.comment7}"</p>
             <hr />
-            <h5>${form.question8}</h5>
-            <h6>Rating: ${form.answer8}</h6>
+            <p class='bold'>${form.question8}</h5>
+            <h5>Rating: ${form.answer8}/5</h6>
             <p>Comments: "${form.comment8}"</p>
             <hr />
-            <h5>${form.question9}</h5>
-            <h6>Rating: ${form.answer9}</h6>
+            <p class='bold'>${form.question9}</h5>
+            <h5>Rating: ${form.answer9}/5</h6>
             <p>Comments: "${form.comment9}"</p>
             <hr />
-            <h5>${form.question10}</h5>
-            <h6>Rating: ${form.answer10}</h6>
+            <p class='bold'>${form.question10}</h5>
+            <h5>Rating: ${form.answer10}/5</h6>
             <p>Comments: "${form.comment10}"</p>
             <hr />
             
@@ -1101,18 +1113,8 @@ exports.reviewMessage = function (message1, employee, form, score) {
     <!--[if (mso)|(IE)]><td align="center" width="600" style="background-color: #ffffff;width: 600px;padding: 17px 0px 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;" valign="top"><![endif]-->
     <div class="u-col u-col-100" style="max-width: 320px;min-width: 600px;display: table-cell;vertical-align: top;">
       <div style="background-color: #ffffff;width: 100% !important;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
-      <!--[if (!mso)&(!IE)]><!--><div style="padding: 17px 0px 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;"><!--<![endif]-->
+      <!--[if (!mso)&(!IE)]><!--><div style="border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;"><!--<![endif]-->
       
-    <table id="u_content_text_1" style="font-family:arial,helvetica,sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
-      <tbody>
-        <tr>
-          <td class="v-container-padding-padding" style="overflow-wrap:break-word;word-break:break-word;padding:10px 35px;font-family:arial,helvetica,sans-serif;" align="left">
-            
-    
-          </td>
-        </tr>
-      </tbody>
-    </table>
     
       <!--[if (!mso)&(!IE)]><!--></div><!--<![endif]-->
       </div>
@@ -1125,33 +1127,7 @@ exports.reviewMessage = function (message1, employee, form, score) {
     
     
     
-    <div class="u-row-container" style="padding: 0px;background-color: transparent">
-      <div class="u-row" style="Margin: 0 auto;min-width: 320px;max-width: 600px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;">
-        <div style="border-collapse: collapse;display: table;width: 100%;background-color: transparent;">
-          <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding: 0px;background-color: transparent;" align="center"><table cellpadding="0" cellspacing="0" border="0" style="width:600px;"><tr style="background-color: transparent;"><![endif]-->
-          
-    <!--[if (mso)|(IE)]><td align="center" width="600" style="background-color: #ffffff;width: 600px;padding: 17px 0px 15px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;" valign="top"><![endif]-->
-    <div class="u-col u-col-100" style="max-width: 320px;min-width: 600px;display: table-cell;vertical-align: top;">
-      <div style="background-color: #ffffff;width: 100% !important;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
-      <!--[if (!mso)&(!IE)]><!--><div style="padding: 17px 0px 15px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;"><!--<![endif]-->
-      
-    <table id="u_content_button_1" style="font-family:arial,helvetica,sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
-      <tbody>
-        <tr>
-          <td class="v-container-padding-padding" style="overflow-wrap:break-word;word-break:break-word;padding:20px 10px;font-family:arial,helvetica,sans-serif;" align="left">        
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    
-      <!--[if (!mso)&(!IE)]><!--></div><!--<![endif]-->
-      </div>
-    </div>
-    <!--[if (mso)|(IE)]></td><![endif]-->
-          <!--[if (mso)|(IE)]></tr></table></td></tr></table><![endif]-->
-        </div>
-      </div>
-    </div>
+
     
     
     
@@ -1230,6 +1206,130 @@ exports.reviewMessage = function (message1, employee, form, score) {
       </table>
       <!--[if mso]></div><![endif]-->
       <!--[if IE]></div><![endif]-->
+    </body>
+    
+    </html>`
+  );
+}
+
+
+exports.reviewStatus = function (name, date, store, effectiveDate, currentRate, newRate ) {
+  return (
+    `<!DOCTYPE HTML
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml"
+    xmlns:o="urn:schemas-microsoft-com:office:office">
+    
+    <head>
+    <!--[if gte mso 9]>
+    <xml>
+    <o:OfficeDocumentSettings>
+      <o:AllowPNG/>
+      <o:PixelsPerInch>96</o:PixelsPerInch>
+    </o:OfficeDocumentSettings>
+    </xml>
+    <![endif]-->
+    <!--<![endif]-->
+    <title></title>
+    
+    <style type="text/css">
+    img {
+      position: absolute;
+      left: 0;
+      top: 2%;
+      overflow: hidden;
+      z-index: 0;
+      width: 1009px;
+      height: 1306px;
+    }
+      body {
+        margin: 0;
+        padding: 0;
+      }
+    
+      .name {
+        font-size: 20px;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        position: absolute;
+        margin-top: 153px;
+        margin-left: 215px;
+        left: 50;
+        z-index: 1;
+      }
+      .date {
+        font-size: 20px;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        position: absolute;
+        margin-top: 101px;
+        margin-left: 587px;
+        left: 50;
+        z-index: 1;
+      }
+      .store {
+        font-size: 20px;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        position: absolute;
+        margin-top: 101px;
+        margin-left: 130px;
+        left: 50;
+        z-index: 1;
+      }
+      .currentRate {
+        font-size: 20px;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        position: absolute;
+        margin-top: 630px;
+        margin-left: 530px;
+        left: 50;
+        z-index: 1;
+      }
+      .newRate {
+        font-size: 20px;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        position: absolute;
+        margin-top: 630px;
+        margin-left: 805px;
+        left: 50;
+        z-index: 1;
+      }
+      .effectiveDate {
+        font-size: 20px;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        position: absolute;
+        margin-top: 630px;
+        margin-left: 275px;
+        left: 50;
+        z-index: 1;
+      }
+    
+      
+    
+    
+    </style>
+    
+    
+    
+    <!--[if !mso]><!-->
+    <link href="https://fonts.googleapis.com/css?family=Cabin:400,700" rel="stylesheet" type="text/css">
+    <!--<![endif]-->
+    
+    </head>
+    
+    <body class=""
+    style="margin: 0;padding: 0;-webkit-text-size-adjust: 100%;background-color: #f9f9f9;color: #000000">
+    
+    <div>
+    <h2 class="name">${name}</h2>
+    <h2 class="date">${date}</h2>
+    <h2 class="store">${store}</h2>
+    <h2 class="currentRate">${currentRate}</h2>
+    <h2 class="newRate">${newRate}</h2>
+    <h2 class="effectiveDate">${effectiveDate}</h2>
+    
+    
+    <img align="center" border="0" src="https://images.unlayer.com/projects/86201/1655912672424-status.jpg" alt=""
+    />
+    </div>
     </body>
     
     </html>`

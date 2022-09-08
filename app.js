@@ -21,6 +21,7 @@ const passport = require('passport');
 const authenticate = require('./authenticate');
 const moment = require('moment');
 
+
 function getSurveyUser(username) {
   let retVal = "";
   switch (username) {
