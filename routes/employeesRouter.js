@@ -30,7 +30,7 @@ var transporter = nodemailer.createTransport({
     }
 });
 
-employeesRouter.route('/message/test')
+employeesRouter.route('/test')
 .get((req, res, next) => {
     console.log('sending email');
     // get all employees
