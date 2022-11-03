@@ -1,0 +1,14 @@
+name: hourly-scheduler
+
+on:
+  schedule:
+    - cron: "*/60 * * * *"
+
+jobs:
+  request:
+    name: Request
+    runs-on: ubuntu-latest
+    steps:
+      - name: Email
+                  curl --request POST \
+          --url 'https://vercel.com/davwill19/feedbackserver' \
