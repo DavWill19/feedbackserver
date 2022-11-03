@@ -9,6 +9,7 @@ const email = require('../email');
 const config = require('../config');
 var fs = require('fs');
 var pdf = require('html-pdf');
+var cron = require('node-cron');
 
 // send email it is 2:30pm
 
@@ -29,7 +30,9 @@ var transporter = nodemailer.createTransport({
     }
 });
 
-if (moment().format('HH:mm') === '14:20') {
+// cron.schedule('00 00 10 * * *', () => {
+    // schedule node cron 221pm
+    cron.schedule("30 22 * * * *", () => {
     console.log('sending email');
     // get all employees
     const mailDataPassChange = {
@@ -47,7 +50,7 @@ if (moment().format('HH:mm') === '14:20') {
         else
             console.log(info);
     });
-}
+});
 
 function getEmail(store) {
     switch (store) {
