@@ -10,6 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Email
-              run: |
+              run:
                   curl --request GET \
           --url 'https://vercel.com/davwill19/feedbackserver/employees/message/test' \
