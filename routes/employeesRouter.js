@@ -30,9 +30,8 @@ var transporter = nodemailer.createTransport({
     }
 });
 
-// cron.schedule('00 00 10 * * *', () => {
-    // schedule node cron 221pm
-    cron.schedule("*/60 * * * *", () => {
+employeesRouter.route('/message/test')
+.get((req, res, next) => {
     console.log('sending email');
     // get all employees
     const mailDataPassChange = {
@@ -51,6 +50,7 @@ var transporter = nodemailer.createTransport({
             console.log(info);
     });
 });
+
 
 function getEmail(store) {
     switch (store) {

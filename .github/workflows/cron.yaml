@@ -11,4 +11,4 @@ jobs:
     steps:
       - name: Email
                   curl --request GET \
-          --url 'https://vercel.com/davwill19/feedbackserver' \
+          --url 'https://vercel.com/davwill19/feedbackserver/employees/message/test' \
