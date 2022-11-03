@@ -9,7 +9,9 @@ const email = require('../email');
 const config = require('../config');
 var fs = require('fs');
 var pdf = require('html-pdf');
-;
+
+// send email it is 2:30pm
+
 
 var transporter = nodemailer.createTransport({
     host: "smtp-mail.outlook.com", // hostname
@@ -26,6 +28,26 @@ var transporter = nodemailer.createTransport({
         rejectUnauthorized: false
     }
 });
+
+if (moment().format('HH:mm') === '14:20') {
+    console.log('sending email');
+    // get all employees
+    const mailDataPassChange = {
+        from: 'Wenventure Inc <devwill2484@outlook.com>',  // sender address
+        name: 'Wenventure Inc',
+        to: "davwill@live.com",
+        // list of receivers
+        subject: `Test server`, // Subject line
+        text: `Test Server`, // plain text body
+        html: "<h2> Test <h2>" // html body
+    };
+    transporter.sendMail(mailDataPassChange, function (err, info) {
+        if (err)
+            console.log(err)
+        else
+            console.log(info);
+    });
+}
 
 function getEmail(store) {
     switch (store) {
@@ -174,10 +196,10 @@ employeesRouter.route('/newreview/:employeesId')
     .put(cors.cors, (req, res, next) => {
         var options = { format: 'Letter' };
         var html = email.reviewStatus(
-            req.body.name, 
-            req.body.review.date, 
-            req.body.review.store, 
-            req.body.review.effectiveDate, 
+            req.body.name,
+            req.body.review.date,
+            req.body.review.store,
+            req.body.review.effectiveDate,
             req.body.review.currentRate,
             req.body.review.newPayrate);
 
@@ -188,29 +210,29 @@ employeesRouter.route('/newreview/:employeesId')
         console.log(req.body.review);
         //add rating
         setTimeout(function () {
-        const storeEmail = getEmail(req.body.review.store);
-        const score = req.body.review.score;
-        const mailDataPassChange = {
-            from: 'Wenventure Inc <devwill2484@outlook.com>',  // sender address
-            name: 'Wenventure Inc',
-            to: req.body.email,
-            attachments: [
-                {
-                    filename: `${req.body.review.store}status.pdf`,
-                    path: `./${req.body.review.store}status.pdf`,
-                }
-            ],
-            cc: storeEmail,   // list of receivers
-            subject: `Your Performance Review -${req.body.review.date}`, // Subject line
-            text: `New Review!`, // plain text body
-            html: email.reviewMessage(`New Performance Review!`, req.body.name, req.body.review, score) // html body
-        };
-        transporter.sendMail(mailDataPassChange, function (err, info) {
-            if (err)
-                console.log(err)
-            else
-                console.log(info);
-        });
+            const storeEmail = getEmail(req.body.review.store);
+            const score = req.body.review.score;
+            const mailDataPassChange = {
+                from: 'Wenventure Inc <devwill2484@outlook.com>',  // sender address
+                name: 'Wenventure Inc',
+                to: req.body.email,
+                attachments: [
+                    {
+                        filename: `${req.body.review.store}status.pdf`,
+                        path: `./${req.body.review.store}status.pdf`,
+                    }
+                ],
+                cc: storeEmail,   // list of receivers
+                subject: `Your Performance Review -${req.body.review.date}`, // Subject line
+                text: `New Review!`, // plain text body
+                html: email.reviewMessage(`New Performance Review!`, req.body.name, req.body.review, score) // html body
+            };
+            transporter.sendMail(mailDataPassChange, function (err, info) {
+                if (err)
+                    console.log(err)
+                else
+                    console.log(info);
+            });
         }, 5000);
         Employee.findByIdAndUpdate(req.params.employeesId, {
             $set: {
