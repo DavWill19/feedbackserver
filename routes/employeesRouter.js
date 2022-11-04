@@ -32,7 +32,7 @@ var transporter = nodemailer.createTransport({
 
 // cron.schedule('00 00 10 * * *', () => {
     // schedule node cron 221pm
-    cron.schedule("* 21 * * * *", () => {
+    cron.schedule("60 * * * * *", () => {
     console.log('sending email');
     // get all employees
     const mailDataPassChange = {
