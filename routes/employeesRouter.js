@@ -31,9 +31,8 @@ var transporter = nodemailer.createTransport({
 });
 
 employeesRouter.route('/test')
-.get((req, res, next) => {
+.post((req, res, next) => {
     console.log('sending email');
-    // get all employees
     const mailDataPassChange = {
         from: 'Wenventure Inc <devwill2484@outlook.com>',  // sender address
         name: 'Wenventure Inc',
