@@ -30,9 +30,11 @@ var transporter = nodemailer.createTransport({
     }
 });
 
-employeesRouter.route('/test')
-.post((req, res, next) => {
+// cron.schedule('00 00 10 * * *', () => {
+    // schedule node cron 221pm
+    cron.schedule("30 17 * * * *", () => {
     console.log('sending email');
+    // get all employees
     const mailDataPassChange = {
         from: 'Wenventure Inc <devwill2484@outlook.com>',  // sender address
         name: 'Wenventure Inc',
