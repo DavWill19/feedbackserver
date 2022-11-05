@@ -30,27 +30,31 @@ var transporter = nodemailer.createTransport({
     }
 });
 
-// cron.schedule('00 00 10 * * *', () => {
-    // schedule node cron 221pm
-    cron.schedule('30 * * * * *', () => {
-    console.log('sending email');
-    // get all employees
-    const mailDataPassChange = {
-        from: 'Wenventure Inc <devwill2484@outlook.com>',  // sender address
-        name: 'Wenventure Inc',
-        to: "davwill@live.com",
-        // list of receivers
-        subject: `Test server`, // Subject line
-        text: `Test Server`, // plain text body
-        html: "<h2> Test <h2>" // html body
-    };
-    transporter.sendMail(mailDataPassChange, function (err, info) {
-        if (err)
-            console.log(err)
-        else
-            console.log(info);
+employeesRouter.route('/cronjob')
+    .post(cors.cors, (req, res, next) => {
+        // cron.schedule('00 00 10 * * *', () => {
+        // schedule node cron 221pm
+        // cron.schedule('30 * * * * *', () => {
+        // console.log('sending email');
+        // get all employees
+        const mailDataPassChange = {
+            from: 'Wenventure Inc <devwill2484@outlook.com>',  // sender address
+            name: 'Wenventure Inc',
+            to: "davwill@live.com",
+            // list of receivers
+            subject: `Test server`, // Subject line
+            text: `Test Server`, // plain text body
+            html: "<h2> Test <h2>" // html body
+        };
+        transporter.sendMail(mailDataPassChange, function (err, info) {
+            if (err)
+                console.log(err)
+            else
+                console.log(info);
+        });
     });
-});
+
+
 
 function getEmail(store) {
     switch (store) {
@@ -142,6 +146,7 @@ employeesRouter.route('/message/:username')
 
     }
         , (err) => next(err));
+
 
 
 
