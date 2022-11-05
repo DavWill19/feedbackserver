@@ -47,10 +47,6 @@ employeesRouter.route('/cronjob/:cronjob')
             else
                 console.log(info);
         });
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'application/json');
-        res.json({ success: true, status: 'Email Sent' });
-
     });
 
 
