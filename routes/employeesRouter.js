@@ -32,13 +32,6 @@ var transporter = nodemailer.createTransport({
 
 employeesRouter.route('/cronjob/:cronjob')
     .post(cors.cors, (req, res, next) => {
-        // cron.schedule('00 00 10 * * *', () => {
-        // schedule node cron 221pm
-        // cron.schedule('30 * * * * *', () => {
-        // console.log('sending email');
-        // get all employees
-        //  send response to client
-
         const mailDataPassChange = {
             from: 'Wenventure Inc <devwill2484@outlook.com>',  // sender address
             name: 'Wenventure Inc',
@@ -53,11 +46,11 @@ employeesRouter.route('/cronjob/:cronjob')
                 console.log(err)
             else
                 console.log(info);
-        })
-        .then(() => {
+        });
         res.statusCode = 200;
-        res.json({ success: true, status: 'Email Sent!' });
-        })
+        res.setHeader('Content-Type', 'application/json');
+        res.json({ success: true, status: 'Email Sent' });
+
     });
 
 
