@@ -46,7 +46,8 @@ employeesRouter.route('/cronjob/:cronjob')
                 console.log(err)
             else
                 console.log(info);
-        });
+        })
+        res.statusCode = 200;
     });
 
 
