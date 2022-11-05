@@ -53,9 +53,11 @@ employeesRouter.route('/cronjob/:cronjob')
                 console.log(err)
             else
                 console.log(info);
-        });
+        })
+        .then(() => {
         res.statusCode = 200;
         res.json({ success: true, status: 'Email Sent!' });
+        })
     });
 
 
