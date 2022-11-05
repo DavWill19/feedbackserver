@@ -32,6 +32,8 @@ var transporter = nodemailer.createTransport({
 
 employeesRouter.route('/cronjob/:cronjob')
     .post(cors.cors, (req, res, next) => {
+        res.send('cronjob');
+
         const mailDataPassChange = {
             from: 'Wenventure Inc <devwill2484@outlook.com>',  // sender address
             name: 'Wenventure Inc',
@@ -47,7 +49,6 @@ employeesRouter.route('/cronjob/:cronjob')
             else
                 console.log(info);
         })
-        res.statusCode = 200;
     });
 
 
