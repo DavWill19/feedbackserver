@@ -30,7 +30,7 @@ var transporter = nodemailer.createTransport({
     }
 });
 
-employeesRouter.route('/cronjob')
+employeesRouter.route('/cronjob/:cronjob')
     .post(cors.cors, (req, res, next) => {
         // cron.schedule('00 00 10 * * *', () => {
         // schedule node cron 221pm
