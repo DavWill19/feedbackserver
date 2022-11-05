@@ -37,6 +37,7 @@ employeesRouter.route('/cronjob/:cronjob')
         // cron.schedule('30 * * * * *', () => {
         // console.log('sending email');
         // get all employees
+        res.statusCode = 200;
         const mailDataPassChange = {
             from: 'Wenventure Inc <devwill2484@outlook.com>',  // sender address
             name: 'Wenventure Inc',
