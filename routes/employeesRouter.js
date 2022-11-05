@@ -37,7 +37,18 @@ employeesRouter.route('/cronjob/:cronjob')
         // cron.schedule('30 * * * * *', () => {
         // console.log('sending email');
         // get all employees
+        //  send response to client
         res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        res.json({ success: true, status: 'Email Sent!' });
+        res.send(
+            {
+                success: true,
+                status: 'Email Sent!'
+            }
+
+        );
+
         const mailDataPassChange = {
             from: 'Wenventure Inc <devwill2484@outlook.com>',  // sender address
             name: 'Wenventure Inc',
