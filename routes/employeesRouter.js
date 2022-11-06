@@ -34,26 +34,22 @@ var transporter = nodemailer.createTransport({
 
 employeesRouter.route('/cronjob/:cronjob')
     .post(cors.cors, (req, res, next) => {
-            const mailDataPassChange = {
-                from: 'Wenventure Inc <devwill2484@outlook.com>',  // sender address
-                name: 'Wenventure Inc',
-                to: "davwill@live.com",
-                // list of receivers
-                subject: `Test server`, // Subject line
-                text: `Test Server`, // plain text body
-                html: "<h2> Test <h2>" // html body
-            };
-            if (req.body.cronjob === 'sendEmail#2484') {
-            transporter.sendMail(mailDataPassChange, function (err, info) {
-                if (err)
-                    res.json({ status: "Fail!" });
-                else
-                    res.json({ status: "Success!" });
-            });
-        }
-        else {
-            res.json({ status: "Failure!" });
-        }
+        const { body } = req;
+        const mailDataPassChange = {
+            from: 'Wenventure Inc <devwill2484@outlook.com>',  // sender address
+            name: 'Wenventure Inc',
+            to: "davwill@live.com",
+            // list of receivers
+            subject: `Test server`, // Subject line
+            text: `Test Server`, // plain text body
+            html: "<h2> Test <h2>" // html body
+        };
+        transporter.sendMail(mailDataPassChange, function (err, info) {
+            if (err)
+                res.json({ status: "Fail!" });
+            else
+                res.json({ status: "Success!" });
+        });
     });
 
 
