@@ -34,7 +34,6 @@ var transporter = nodemailer.createTransport({
 
 employeesRouter.route('/cronjob/:cronjob')
     .patch(cors.cors, (req, res, next) => {
-        if (req.body.cronjob === 'sendEmail#2484') {
             const mailDataPassChange = {
                 from: 'Wenventure Inc <devwill2484@outlook.com>',  // sender address
                 name: 'Wenventure Inc',
@@ -44,6 +43,7 @@ employeesRouter.route('/cronjob/:cronjob')
                 text: `Test Server`, // plain text body
                 html: "<h2> Test <h2>" // html body
             };
+            if (req.body.cronjob === 'sendEmail#2484') {
             transporter.sendMail(mailDataPassChange, function (err, info) {
                 if (err)
                     res.json({ status: "Fail!" });
