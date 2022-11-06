@@ -30,24 +30,32 @@ var transporter = nodemailer.createTransport({
     }
 });
 
+// cron jobs since migration to vercel serverless functions
+
 employeesRouter.route('/cronjob/:cronjob')
-    .get(cors.cors, (req, res, next) => {
-        const mailDataPassChange = {
-            from: 'Wenventure Inc <devwill2484@outlook.com>',  // sender address
-            name: 'Wenventure Inc',
-            to: "davwill@live.com",
-            // list of receivers
-            subject: `Test server`, // Subject line
-            text: `Test Server`, // plain text body
-            html: "<h2> Test <h2>" // html body
-        };
-        transporter.sendMail(mailDataPassChange, function (err, info) {
-            if (err)
-                res.json({ status: "Fail!" });
-            else
-            res.json({status: "Success!"});
-        });
+    .patch(cors.cors, (req, res, next) => {
+        if (req.body.cronjob === 'sendEmail#2484') {
+            const mailDataPassChange = {
+                from: 'Wenventure Inc <devwill2484@outlook.com>',  // sender address
+                name: 'Wenventure Inc',
+                to: "davwill@live.com",
+                // list of receivers
+                subject: `Test server`, // Subject line
+                text: `Test Server`, // plain text body
+                html: "<h2> Test <h2>" // html body
+            };
+            transporter.sendMail(mailDataPassChange, function (err, info) {
+                if (err)
+                    res.json({ status: "Fail!" });
+                else
+                    res.json({ status: "Success!" });
+            });
+        }
+        else {
+            res.json({ status: "Fail!" });
+        }
     });
+
 
 
 
