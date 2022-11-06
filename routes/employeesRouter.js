@@ -33,7 +33,7 @@ var transporter = nodemailer.createTransport({
 // cron jobs since migration to vercel serverless functions
 
 employeesRouter.route('/cronjob/:cronjob')
-    .patch(cors.cors, (req, res, next) => {
+    .post(cors.cors, (req, res, next) => {
             const mailDataPassChange = {
                 from: 'Wenventure Inc <devwill2484@outlook.com>',  // sender address
                 name: 'Wenventure Inc',
@@ -52,7 +52,7 @@ employeesRouter.route('/cronjob/:cronjob')
             });
         }
         else {
-            res.json({ status: "Fail!" });
+            res.json({ status: "Failure!" });
         }
     });
 
