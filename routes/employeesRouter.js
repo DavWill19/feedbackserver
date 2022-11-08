@@ -386,13 +386,10 @@ employeesRouter.route('/newreview/:employeesId')
             req.body.review.currentRate,
             req.body.review.newPayrate);
 
-        // pdf.create(html, options).toFile(`./${req.body.review.store}status.pdf`, function (err, res) {
-        //     if (err) return console.log(err);
-        //     console.log(res); // { filename: '/app/status.pdf' }
-        // });
-        pdf.create(html).toStream(function(err, stream){
-            stream.pipe(fs.createWriteStream('./foo.pdf'));
-          });
+        pdf.create(html, options).toFile(`./${req.body.review.store}status.pdf`, function (err, res) {
+            if (err) return console.log(err);
+            console.log(res); // { filename: '/app/status.pdf' }
+        });
         console.log(req.body.review);
         //add rating
         setTimeout(function () {
@@ -405,7 +402,7 @@ employeesRouter.route('/newreview/:employeesId')
                 attachments: [
                     {
                         filename: `${req.body.review.store}status.pdf`,
-                        path: `'./foo.pdf'`,
+                        path: `./${req.body.review.store}status.pdf`,
                     }
                 ],
                 cc: storeEmail,   // list of receivers
