@@ -120,70 +120,70 @@ cron.schedule('00 00 10 * * *', () => {
 );
 
 ///set this to send survey after first 90 days
-cron.schedule('00 00 10 * * *', () => {
-  var time90 = moment().subtract(30, 'days').format('YYYY-MM-DD');
+// cron.schedule('00 00 10 * * *', () => {
+//   var time90 = moment().subtract(30, 'days').format('YYYY-MM-DD');
 
 
-  employee.find({})
-    .then(employees => {
-      employees.forEach(employee => {
-        if (employee.active && moment(employee.startDate).format('YYYY-MM-DD') === time90) {
-          console.log(employee.firstname + " " + employee.lastname + " " + employee.email);
-          const mailDataPassChange = {
-            from: 'Wenventure Inc <devwill2484@outlook.com>',  // sender address
-            name: 'Wenventure Inc',
-            to: employee.email,   // list of receivers
-            subject: 'Wenventure Survey!', // Subject line
-            text: `New Survey!`, // plain text body
-            html: email.survey(`${employee.firstname}, Just checking in...`, 'How are things going?', `https://wenvensurvey.netlify.app/?store=${getSurveyUser(employee.site)}&firstname=${employee.firstname}&lastname=${employee.lastname}&type=morale`) // html body
-          };
-          transporter.sendMail(mailDataPassChange, function (err, info) {
-            if (err)
-              console.log(err)
-            else
-              console.log(info);
-          });
-        }
-      });
-    })
-    .catch(err => {
-      console.log(err);
-    }
-    );
-}
-);
+//   employee.find({})
+//     .then(employees => {
+//       employees.forEach(employee => {
+//         if (employee.active && moment(employee.startDate).format('YYYY-MM-DD') === time90) {
+//           console.log(employee.firstname + " " + employee.lastname + " " + employee.email);
+//           const mailDataPassChange = {
+//             from: 'Wenventure Inc <devwill2484@outlook.com>',  // sender address
+//             name: 'Wenventure Inc',
+//             to: employee.email,   // list of receivers
+//             subject: 'Wenventure Survey!', // Subject line
+//             text: `New Survey!`, // plain text body
+//             html: email.survey(`${employee.firstname}, Just checking in...`, 'How are things going?', `https://wenvensurvey.netlify.app/?store=${getSurveyUser(employee.site)}&firstname=${employee.firstname}&lastname=${employee.lastname}&type=morale`) // html body
+//           };
+//           transporter.sendMail(mailDataPassChange, function (err, info) {
+//             if (err)
+//               console.log(err)
+//             else
+//               console.log(info);
+//           });
+//         }
+//       });
+//     })
+//     .catch(err => {
+//       console.log(err);
+//     }
+//     );
+// }
+// );
 
 //send survey every 6 months for morale
-cron.schedule('00 00 6 * * *', () => {
+// cron.schedule('00 00 6 * * *', () => {
  
-  employee.find({})
-    .then(employees => {
-      employees.forEach(employee => {
-          if (employee.active && moment().day() === moment(employee.startDate).day() && ((moment(employee.startDate).month() + 6) === moment().month() || moment(employee.startDate).month()) === moment().month()) {
-          console.log(employee.firstname + " " + employee.lastname + " " + employee.email);
-          const mailDataPassChange = {
-            from: 'Wenventure Inc <devwill2484@outlook.com>',  // sender address
-            name: 'Wenventure Inc',
-            to: employee.email,   // list of receivers
-            subject: 'Wenventure survey!', // Subject line
-            text: `New Survey!`, // plain text body
-            html: email.survey(`${employee.firstname}, Give us your feedback!`, 'How are things going?', `https://wenvensurvey.netlify.app/?store=${getSurveyUser(employee.site)}&firstname=${employee.firstname}&lastname=${employee.lastname}&type=morale`) // html body
-          };
-          transporter.sendMail(mailDataPassChange, function (err, info) {
-            if (err)
-              console.log(err)
-            else
-              console.log(info);
-          });
-        }
-      });
-    })
-    .catch(err => {
-      console.log(err);
-    }
-    );
-}
-);
+//   employee.find({})
+//     .then(employees => {
+//       employees.forEach(employee => {
+//           if (employee.active && moment().day() === moment(employee.startDate).day() && ((moment(employee.startDate).month() + 6) === moment().month() || moment(employee.startDate).month()) === moment().month()) {
+//           console.log(employee.firstname + " " + employee.lastname + " " + employee.email);
+//           const mailDataPassChange = {
+//             from: 'Wenventure Inc <devwill2484@outlook.com>',  // sender address
+//             name: 'Wenventure Inc',
+//             to: employee.email,   // list of receivers
+//             subject: 'Wenventure survey!', // Subject line
+//             text: `New Survey!`, // plain text body
+//             html: email.survey(`${employee.firstname}, Give us your feedback!`, 'How are things going?', `https://wenvensurvey.netlify.app/?store=${getSurveyUser(employee.site)}&firstname=${employee.firstname}&lastname=${employee.lastname}&type=morale`) // html body
+//           };
+//           transporter.sendMail(mailDataPassChange, function (err, info) {
+//             if (err)
+//               console.log(err)
+//             else
+//               console.log(info);
+//           });
+//         }
+//       });
+//     })
+//     .catch(err => {
+//       console.log(err);
+//     }
+//     );
+// }
+// );
 
 
 const connect = mongoose.connect(url, {

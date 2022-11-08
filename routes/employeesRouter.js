@@ -11,52 +11,6 @@ var fs = require('fs');
 var pdf = require('html-pdf');
 var cron = require('node-cron');
 
-// send email it is 2:30pm
-
-
-var transporter = nodemailer.createTransport({
-    host: "smtp-mail.outlook.com", // hostname
-    secureConnection: false, // TLS requires secureConnection to be false
-    port: 587, // port for secure SMTP
-    tls: {
-        ciphers: 'SSLv3'
-    },
-    auth: {
-        user: config.auth.user,
-        pass: config.auth.pass
-    },
-    tls: {
-        rejectUnauthorized: false
-    }
-});
-
-// cron jobs since migration to vercel serverless functions
-
-employeesRouter.route('/cronjob/:cronjob')
-    .post(cors.cors, (req, res, next) => {
-        const { body } = req;
-        const mailDataPassChange = {
-            from: 'Wenventure Inc <devwill2484@outlook.com>',  // sender address
-            name: 'Wenventure Inc',
-            to: "davwill@live.com",
-            // list of receivers
-            subject: `Test server`, // Subject line
-            text: `Test Server`, // plain text body
-            html: "<h2> Test <h2>" // html body
-        };
-        transporter.sendMail(mailDataPassChange, function (err, info) {
-            if (err)
-                res.json({ status: "Fail!" });
-            else
-                res.json({ status: "Success!" });
-        });
-    });
-
-
-
-
-
-
 function getEmail(store) {
     switch (store) {
         case 'Altoona23':
@@ -89,7 +43,227 @@ function getEmail(store) {
 }
 
 
+var transporter = nodemailer.createTransport({
+    host: "smtp-mail.outlook.com", // hostname
+    secureConnection: false, // TLS requires secureConnection to be false
+    port: 587, // port for secure SMTP
+    tls: {
+        ciphers: 'SSLv3'
+    },
+    auth: {
+        user: config.auth.user,
+        pass: config.auth.pass
+    },
+    tls: {
+        rejectUnauthorized: false
+    }
+});
 
+        //  TEST EMAIL 
+        // const mailDataPassChange = {
+        //     from: 'Wenventure Inc <devwill2484@outlook.com>',  // sender address
+        //     name: 'Wenventure Inc',
+        //     to: "davwill@live.com",
+        //     // list of receivers
+        //     subject: `Test server`, // Subject line
+        //     text: `Test Server`, // plain text body
+        //     html: "<h2> Test <h2>" // html body
+        // };
+        // transporter.sendMail(mailDataPassChange, function (err, info) {
+        //     if (err)
+        //         res.json({ status: "Fail!" });
+        //     else
+        //         res.json({ status: "Success!" });
+        // });
+
+// *** cron jobs since migration to vercel serverless functions
+
+employeesRouter.route('/cronjob/:cronjob')
+    .post(cors.cors, (req, res, next) => {
+        // send training survey after 30 days
+        var time30 = moment(new Date).subtract(30, 'days').format('YYYY-MM-DD');
+        Employee.find({})
+            .then(employees => {
+                employees.forEach(employee => {
+                    if (employee.active && moment(employee.startDate).format('YYYY-MM-DD') === time30) {
+                        console.log(employee.firstname + " " + employee.lastname + " " + employee.email);
+                        const mailDataPassChange = {
+                            from: 'Wenventure Inc <devwill2484@outlook.com>',  // sender address
+                            name: 'Wenventure Inc',
+                            // dont forget to change this to employee.email
+                            to: getEmail(employee.site),   // list of receivers
+                            subject: 'Wenventure Survey!', // Subject line
+                            text: `New Survey!`, // plain text body
+                            html: email.survey(`${employee.firstname}, Just checking in...`, 'Tell us about your training!', `https://wenvensurvey.netlify.app/?store=${getSurveyUser(employee.site)}&firstname=${employee.firstname}&lastname=${employee.lastname}&type=training`) // html body
+                        };
+                        transporter.sendMail(mailDataPassChange, function (err, info) {
+                            if (err)
+                                res.json({ status: "Fail!" });
+                            else
+                                res.json({ status: "Success!" });
+                        });
+                    }
+                    else {
+                        console.log('nope');
+                        res.json({ status: "none to send!" });
+                    }
+                });
+            })
+            .catch(err => {
+                console.log(err);
+            }
+            );
+    });
+
+employeesRouter.route('/cronjob2/:cronjob')
+    .post(cors.cors, (req, res, next) => {
+        // send training survey after 90 days
+        var time90 = moment().subtract(90, 'days').format('YYYY-MM-DD');
+        Employee.find({})
+            .then(employees => {
+                employees.forEach(employee => {
+                    if (employee.active && moment(employee.startDate).format('YYYY-MM-DD') === time90) {
+                        console.log(employee.firstname + " " + employee.lastname + " " + employee.email);
+                        const mailDataPassChange = {
+                            from: 'Wenventure Inc <devwill2484@outlook.com>',  // sender address
+                            name: 'Wenventure Inc',
+                            to: employee.email,   // list of receivers
+                            subject: 'Wenventure Survey!', // Subject line
+                            text: `New Survey!`, // plain text body
+                            html: email.survey(`${employee.firstname}, Just checking in...`, 'How are things going?', `https://wenvensurvey.netlify.app/?store=${getSurveyUser(employee.site)}&firstname=${employee.firstname}&lastname=${employee.lastname}&type=morale`) // html body
+                        };
+                        transporter.sendMail(mailDataPassChange, function (err, info) {
+                            if (err)
+                                res.json({ status: "Fail!" });
+                            else
+                                res.json({ status: "Success!" });
+                        });
+                    } else {
+                        console.log('nope');
+                        res.json({ status: "none to send!" });
+                    }
+                });
+            })
+            .catch(err => {
+                console.log(err);
+            }
+            );
+    });
+
+employeesRouter.route('/cronjob3/:cronjob')
+    .post(cors.cors, (req, res, next) => {
+        // send morale survey every 6 months
+        Employee.find({})
+            .then(employees => {
+                employees.forEach(employee => {
+                    if (employee.active && moment().day() === moment(employee.startDate).day() && ((moment(employee.startDate).month() + 6) === moment().month() || moment(employee.startDate).month()) === moment().month()) {
+                        console.log(employee.firstname + " " + employee.lastname + " " + employee.email);
+                        const mailDataPassChange = {
+                            from: 'Wenventure Inc <devwill2484@outlook.com>',  // sender address
+                            name: 'Wenventure Inc',
+                            to: employee.email,   // list of receivers
+                            subject: 'Wenventure survey!', // Subject line
+                            text: `New Survey!`, // plain text body
+                            html: email.survey(`${employee.firstname}, Give us your feedback!`, 'How are things going?', `https://wenvensurvey.netlify.app/?store=${getSurveyUser(employee.site)}&firstname=${employee.firstname}&lastname=${employee.lastname}&type=morale`) // html body
+                        };
+                        transporter.sendMail(mailDataPassChange, function (err, info) {
+                            if (err)
+                                res.json({ status: "Fail!" });
+                            else
+                                res.json({ status: "Success!" });
+                        });
+                    } else {
+                        console.log('nope');
+                        res.json({ status: "none to send!" });
+                    }
+                });
+            })
+            .catch(err => {
+                console.log(err);
+            }
+            );
+    });
+
+    employeesRouter.route('/cronjob4/:cronjob')
+    .post(cors.cors, (req, res, next) => {
+        // due notice
+        console.log('cronjob4');
+        var time7 = moment(new Date).add(7, 'days').format('YYYY-MM-DD');
+        console.log(time7);
+        Employee.find({})
+            .then(employees => {
+                employees.forEach(employee => {
+                    console.log(employee.firstname + " " + employee.lastname + " " + moment(employee.nextReview).format('YYYY-MM-DD'));
+                    if (employee.active && moment(employee.nextReview).format('YYYY-MM-DD') === time7) {
+                        // console.log(employee.firstname + " " + employee.lastname + " " + employee.email);
+                        const mailDataPassChange = {
+                            from: 'Wenventure Inc <devwill2484@outlook.com>',  // sender address
+                            name: 'Wenventure Inc',
+                            to: getEmail(employee.site),   // list of receivers
+                            subject: employee.firstname + " " + employee.lastname + " " + "review due!", // Subject line
+                            text: employee.firstname + " " + employee.lastname + " " + "review due!", // plain text body
+                            html: email.message3(`New Performance Review Due!`, `Employee: ${employee.firstname} ${employee.lastname}`, `Due: ${moment(employee.nextReview).format('MM-DD-YYYY')}`) // html body
+                        };
+                        transporter.sendMail(mailDataPassChange, function (err, info) {
+                            if (err)
+                                res.json({ status: "Fail!" });
+                            else
+                                res.json({ status: "Success!" });
+                        });
+                    }
+                    else {
+                        console.log('nope');
+                    }
+                });
+            })
+            .catch(err => {
+                console.log(err);
+            }
+            );
+    });
+
+    employeesRouter.route('/cronjob5/:cronjob')
+    .post(cors.cors, (req, res, next) => {
+        // overdue notice
+        console.log('cronjob5');
+        function isInThePast(date) {
+            const today = new Date();
+          
+            return date < today;
+          }
+        Employee.find({})
+            .then(employees => {
+                employees.forEach(employee => {
+                    console.log(employee.firstname + " " + employee.lastname + " " + moment(employee.nextReview).format('YYYY-MM-DD'));
+                    if (employee.active && isInThePast(employee.nextReview)) {
+                        // console.log(employee.firstname + " " + employee.lastname + " " + employee.email);
+                        const mailDataPassChange = {
+                            from: 'Wenventure Inc <devwill2484@outlook.com>',  // sender address
+                            name: 'Wenventure Inc',
+                            to: getEmail(employee.site),   // list of receivers
+                            subject: employee.firstname + " " + employee.lastname + " " + "review overdue!", // Subject line
+                            text: employee.firstname + " " + employee.lastname + " " + "review overdue!", // plain text body
+                            html: email.message3(`<b>PERFORMANCE REVIEW IS OVERDUE!<b/>`, `Employee: ${employee.firstname} ${employee.lastname}`, `Due: ${moment(employee.nextReview).format('MM-DD-YYYY')} <br /> 
+                            <i>Do not ignore this message.<br /> Please complete employee review ASAP.<i/>
+                            `) // html body
+                        };
+                        transporter.sendMail(mailDataPassChange, function (err, info) {
+                            if (err)
+                                res.json({ status: "Fail!" });
+                            else
+                                res.json({ status: "Success!" });
+                        });
+                    }
+                    else {
+                        console.log('nope');
+                    }
+                });
+            })
+            .catch(err => {
+                console.log(err);
+            }
+            );           
+    });
 
 employeesRouter.route('/:username')
     .options((req, res) => { res.sendStatus(200); })
@@ -212,10 +386,13 @@ employeesRouter.route('/newreview/:employeesId')
             req.body.review.currentRate,
             req.body.review.newPayrate);
 
-        pdf.create(html, options).toFile(`./${req.body.review.store}status.pdf`, function (err, res) {
-            if (err) return console.log(err);
-            console.log(res); // { filename: '/app/status.pdf' }
-        });
+        // pdf.create(html, options).toFile(`./${req.body.review.store}status.pdf`, function (err, res) {
+        //     if (err) return console.log(err);
+        //     console.log(res); // { filename: '/app/status.pdf' }
+        // });
+        pdf.create(html).toStream(function(err, stream){
+            stream.pipe(fs.createWriteStream('./foo.pdf'));
+          });
         console.log(req.body.review);
         //add rating
         setTimeout(function () {
@@ -228,7 +405,7 @@ employeesRouter.route('/newreview/:employeesId')
                 attachments: [
                     {
                         filename: `${req.body.review.store}status.pdf`,
-                        path: `./${req.body.review.store}status.pdf`,
+                        path: `'./foo.pdf'`,
                     }
                 ],
                 cc: storeEmail,   // list of receivers
