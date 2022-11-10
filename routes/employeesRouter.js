@@ -213,6 +213,7 @@ employeesRouter.route('/cronjob3/:cronjob')
                     }
                     else {
                         console.log('nope');
+                        res.json({ status: "none to send!" });
                     }
                 });
             })
@@ -256,6 +257,7 @@ employeesRouter.route('/cronjob3/:cronjob')
                     }
                     else {
                         console.log('nope');
+                        res.json({ status: "none to send!" });
                     }
                 });
             })
